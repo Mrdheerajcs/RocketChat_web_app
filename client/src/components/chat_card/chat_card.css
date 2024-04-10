@@ -1,0 +1,15 @@
+.chat-card {
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+}
+
+.chat-card:hover {
+    background-color: #F1F6FF
+}
+
+.chat-card-active {
+    background-color: #F1F6FF
+}
+
+
+ 
