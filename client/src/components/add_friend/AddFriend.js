@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // import context provide to provide a value to any child components
 import { useState } from 'react';
 
-const AddFriend = ({ onClick }) => {
+const AddFriend = ({ onClick, setModalActive }) => {
 
     // react hook
     const [formData, setFormData] = useState({});
@@ -29,9 +29,10 @@ const AddFriend = ({ onClick }) => {
             })
             const json = await response.json();
             window.alert(json.message)
-
+            
             if(json.success) {
-                navigate('/')
+                navigate('/');
+                setModalActive(false)
             }
             navigate('/')
             return json;

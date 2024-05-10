@@ -1,6 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { updatePassword } from '../../api/Api';
 
-const SecurityTab = ({activeTab}) => {
+const SecurityTab = ({ activeTab }) => {
+
+    // react hook
+    const [passwords, setPasswords] = useState({});
+    // react hook
+
+    // react js renderHook
+    let navigate = useNavigate();
+
+    const handleSecuritySubmit = async (event) => {
+
+
+        event.preventDefault();
+
+        console.log(passwords);
+
+        if (passwords.newPassword === passwords.confirmPassword) {
+            const json = await updatePassword(passwords)
+            if (json.success) {
+                navigate('/')
+            }else {
+                window.alert(json.message)
+            }
+        }
+        else{
+            window.alert("Password is not same!")
+        }
+
+    }
+
+
+    const handleChange = (event) => {
+        // console.log(event.target.value, event.target.name);
+
+        const { name, value } = event.target;
+        setPasswords({
+            ...passwords,
+            [name]: value
+        });
+    }
+
     return (
         <>
             <div className={`tab-pane  show ${activeTab === 'tab4' ? 'active' : ''}`} id="security">
@@ -21,28 +63,31 @@ const SecurityTab = ({activeTab}) => {
                         <div className="row">
                             <div className="col-xl-4">
                                 <div className="form-col form-body">
-                                    <form action="index.html">
+                                    <form onSubmit={handleSecuritySubmit} method="put" action="http://localhost:5000/api/profile/updateprofile" enctype='multipart/form-data'>
                                         <div className="form-group">
                                             <label>Current password</label>
                                             <input
+                                                onChange={handleChange}
                                                 className="form-control form-control-lg group_formcontrol"
-                                                name="current-password" type="password" />
+                                                type="password" name="oldPassword" />
                                         </div>
                                         <div className="form-group">
                                             <label>New password</label>
                                             <input
+                                                onChange={handleChange}
                                                 className="form-control form-control-lg group_formcontrol"
-                                                name="new-password" type="password" />
+                                                name="newPassword" type="password" />
                                         </div>
                                         <div className="form-group">
                                             <label>Confirm password</label>
                                             <input
+                                                onChange={handleChange}
                                                 className="form-control form-control-lg group_formcontrol"
-                                                name="confirm-password" type="password" />
+                                                name="confirmPassword" type="password" />
                                         </div>
                                         <div className="form-row profile_form m-0 align-items-center">
                                             <div className="me-4">
-                                                <button type="button"className="bg-[#420ba1]   mb-0 btn update-btn">
+                                                <button type="submit" className="bg-[#420ba1]   mb-0 btn update-btn">
                                                     Update Password
                                                 </button>
                                             </div>

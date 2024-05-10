@@ -9,6 +9,7 @@ import Home from './pages/home/Home';
 import Login from './components/login/Login';
 import SignUp from './components/signup/SignUp';
 import Profile from './pages/profile/Profile';
+import Status from './pages/status/Status';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/signup" element={<SignUp/>} />
         <Route exact path="/profile" element={<Profile/>} />
+        <Route exact path="/status" element={<Status/>} />
+
       </Routes>
     </div>
   );

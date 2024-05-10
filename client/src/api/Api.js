@@ -128,6 +128,67 @@ export const getTranslate = async (data) => {
     }
 }
 
+// ------------------- Remaining --------------------------
+
+// Update password
+export const updatePassword = async (data) => {
+    try {
+        const response = await fetch(`${url}/api/auth/update-password`, {
+            method: 'PUT',
+            body: JSON.stringify(
+                data
+            ),
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': `${localStorage.getItem('token')}`,
+            }
+        })
+        const json = await response.json();
+        // console.log(json)
+        return json;
+    } catch (error) {
+        console.log('Error while calling get message API ', error);
+    }
+}
+
+// Delete accont
+export const DeleteAccount = async () => {
+    try {
+        const response = await fetch(`${url}/api/auth/delete-account`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': `${localStorage.getItem('token')}`,
+            }
+        })
+        const json = await response.json();
+        // console.log(json)
+        return json;
+    } catch (error) {
+        console.log('Error while calling get message API ', error);
+    }
+}
+
+// file upload
+export const uploadFile = async (data) => {
+    try {
+        const response = await fetch(`${url}/api/message/upload/image`, {
+            method: 'POST',
+            body:data,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        const json = await response.json();
+        console.log(data)
+        return json;
+    } catch (error) {
+        console.log('Error while calling get message API ', error);
+    }
+}
+
+
+
 //////////////////////////////////////////
 // export const addUser = async (data) => {
 //     try {

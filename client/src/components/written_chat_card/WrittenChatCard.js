@@ -4,9 +4,15 @@ import { AccessTime, MoreVert } from '@material-ui/icons';
 
 const WrittenChatCard = ({ message }) => {
 
-    const { person, account } = useSocket();
+    const { person, account, myLanguage, profile } = useSocket();
 
-     
+    const [personLaguage, setPersonLaguage] = useState('en');
+
+
+    useEffect(() => {
+
+    }, [])
+
 
     const formateTimerFunc = (date) => {
         let hours = new Date(date).getHours();
@@ -25,27 +31,49 @@ const WrittenChatCard = ({ message }) => {
 
     useEffect(() => {
         // console.log(element.text)
-        let translatedFrom = "en";
-        let translatedTo = "hi";
 
-        let apiUrl = `https:api.mymemory.translated.net/get?q=${message.text}&langpair=${translatedFrom}|${translatedTo}`;
+        // from database
+        let translatedFrom
+        // if (!(account || account?.language))
+        // translatedFrom = personLaguage;
+        if (!person.profile.language)
+            translatedFrom = "en"   //mylanguage
+        else
+            translatedFrom = person?.profile?.language;
+        // To language
+        let translatedTo;
+        if (!profile.language)
+            translatedTo = "hi"   //mylanguage
+        else
+            translatedTo = profile?.language;
+        let apiUrl = `https:api.mymemory.translated.net/get?q=${message.text}&langpair=${message?.language}|${translatedTo}`;
+
+        // console.log(translatedFrom, translatedTo)
 
         const getTransalte = async () => {
+
             try {
-                const response = await fetch(`${apiUrl}`)
-                const json = await response.json();
 
-                // console.log(json.responseData.translatedText)
-                // console.log(JSON.stringify(json.matches[1].translation))
-                const data = await json.responseData.translatedText
+                if (translatedTo === message?.language) {
+                    setTranslatedText(message?.text)
+                }
+                else {
 
-                // console.log(json.responseData.translatedText)
+                    const response = await fetch(`${apiUrl}`)
+                    const json = await response.json();
 
-                // setTranslatedMessage(prev => [...prev, data])
-                // console.log(data)
-                // return json.matches[1].translation;
-                console.log(data)
-                setTranslatedText(data)
+                    // console.log(json.responseData.translatedText)
+                    // console.log(JSON.stringify(json.matches[1].translation))
+                    const data = await json.responseData.translatedText
+
+                    // console.log(json.responseData.translatedText)
+
+                    // setTranslatedMessage(prev => [...prev, data])
+                    // console.log(data)
+                    // return json.matches[1].translation;
+                    // console.log(data)
+                    setTranslatedText(data)
+                }
 
             } catch (error) {
                 console.log('Error while calling get message API ', error);
@@ -53,8 +81,6 @@ const WrittenChatCard = ({ message }) => {
         }
 
         getTransalte()
-
-
         // console.log(getTransalte())
     }, [message])
 
@@ -81,10 +107,10 @@ const WrittenChatCard = ({ message }) => {
                             </div>
                         </div>
 
-                        <div className="messages">
+                        <div className="messages max-w-[70%]">
                             <div className="mx-3 message bg-[#5a078b] text-white flex flex-col items-start p-3 px-4">
                                 {/* <p className='text-white ' >{message.text}</p> */}
-                                <p className='text-white ' >{translatedText}</p>
+                                <p className='text-white text-left' >{translatedText}</p>
                                 <span className='text-white text-[11px]'><AccessTime style={{ fontSize: '11px' }} className='mr-1' /> {formateTimerFunc(message.createdAt)}</span>
                             </div>
                             <div className="mx-3 mt-1 text-left  text-[15px] text-[--themeColor] font-bold">
@@ -110,11 +136,10 @@ const WrittenChatCard = ({ message }) => {
                             </div>
                         </div>
 
-                        <div className="message">
+                        <div className="message  max-w-[70%] ">
                             <div className="mx-3 message2 bg-[#e7eefe]   flex flex-col items-start p-3 px-4">
                                 {/* <p >{message.text}</p> */}
-                                <p >{translatedText}</p>
-
+                                <p className='text-left'>{translatedText}</p>
                                 <span className=' text-[11px] flex   justify-center items-center'> <AccessTime style={{ fontSize: '11px' }} className='mr-1' /> {formateTimerFunc(message.createdAt)}</span>
                             </div>
                             <div className="mx-3 mt-1 text-right  text-[15px] text-[--themeColor] font-bold">
@@ -126,7 +151,6 @@ const WrittenChatCard = ({ message }) => {
                         </div>
                     </div>
             }
-
         </>
     )
 }

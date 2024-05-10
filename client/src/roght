@@ -1,0 +1,32 @@
+
+
+import ChatBox from "./components/chat_box/ChatBox";
+
+// useEffect(() => {
+//     chatMessages.map(element => {
+//         // console.log(element.text)
+//         let translatedFrom = "en";
+//         let translatedTo = "fr";
+//         let apiUrl = `https:api.mymemory.translated.net/get?q=${element.text}&langpair=$       {translatedFrom}|${translatedTo}`;
+
+//         const getTransalte = async () => {
+//             try {
+//                 const response = await fetch(`${apiUrl}`)
+//                 const json = await response.json();
+//                 // console.log(json.responseData.translatedText)
+//                 // console.log(JSON.stringify(json.matches[1].translation))
+//                 const data =await  json.responseData.translatedText
+//                 // console.log(json.responseData.translatedText)
+//                 element.text = data;
+//                 // setTranslatedMessage(prev => [...prev, data])
+//                 // console.log(data)
+//                 // return json.matches[1].translation;
+//             } catch (error) {
+//                 console.log('Error while calling get message API ', error);
+//             }
+//         }
+//         getTransalte()
+//     });
+//     // console.log(getTransalte())
+// }, [person])
+// ...........................

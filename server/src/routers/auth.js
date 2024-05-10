@@ -95,6 +95,7 @@ router.post('/login', [
                 id: user.id
             }
         }
+
         const authtoken = jwt.sign(data, JWT_SECRET);
         success = true;
         res.json({ success, authtoken })
@@ -123,7 +124,7 @@ router.post('/following', fetchuser, async (req, res) => {
 
         const { followId } = req.body;
         const userId = req.user.id;
-        console.log(userId);
+        // console.log(userId);
 
         const user = await User.findById(userId).select("-password");
 
@@ -174,8 +175,8 @@ router.post('/follow', fetchuser, async (req, res) => {
         }
 
         const friendId = user._id;
-        const userContactList = await Contact.find({user: userId})
-       
+        const userContactList = await Contact.find({ user: userId })
+
         // console.log(account)
 
         if (account.contacts.includes(friendId)) {
@@ -226,7 +227,7 @@ router.post('/unfollow', fetchuser, async (req, res) => {
         }
 
         const friendId = user._id;
-        console.log(account)
+        // console.log(account)
 
         if (!account.contacts.includes(friendId)) {
             return res.status(404).json({ success, message: "User Deleted on your contact list" })
@@ -273,5 +274,67 @@ router.get('/mycontact', fetchuser, async (req, res) => {
     } catch (err) { console.log(err); }
 });
 
+// Route:8 Delete Account logged in user details user POST "/api/auth/getuser" login required
+router.delete('/delete-account', fetchuser, async (req, res) => {
+    let success = false;
+    try {
+        var userid = req.user.id;
+
+        const user = await User.findByIdAndDelete(userid).select("-password");
+        let success = true;
+        res.json({ success, user, message: "Account Deleted successfully" })
+
+    } catch (e) {
+        res.status(500).json({ success, message: "This is internal Error...." })
+    }
+})
+
+// Route:9 UPdate password  s user POST "/api/auth/getuser" login required
+router.put('/update-password', fetchuser,[
+    body('newPassword', 'Password is too short').isLength({ min: 8 })
+], async (req, res) => {
+    let success = false;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({success, errors: errors.array(), message:"Password is too short" });
+    }
+
+    try {
+        const { oldPassword, newPassword } = req.body;
+
+        var userid = req.user.id;
+
+        const user = await User.findById(userid) ;
+        // console.log(user);
+        const passwordCompare = await bcrypt.compare(oldPassword, user.password)
+
+
+        if (!passwordCompare) {
+            let success = false;
+            return res.status(400).json({ success, message: "Incorrect Password !" });
+        }
+
+        if (!user) {
+            let success = false;
+            return res.status(400).json({ success, message: "User Not found !" });
+        }
+
+        //Use bcrypt fucntion to generate hash not password store in database
+        const salt = await bcrypt.genSalt(10);
+        const secPass = await bcrypt.hash(newPassword, salt)
+
+        if (newPassword) user.password = secPass;
+        await user.save();
+
+        success = true;
+        res.json({ success, message: "Password updated Successfully." })
+
+    } catch (e) {
+        let success = false;
+        res.status(500).json({ success, message: "An Internal Error...."})
+    }
+})
 
 module.exports = router;

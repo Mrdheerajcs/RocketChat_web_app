@@ -22,7 +22,6 @@ export const SocketProvider = (props) => {
 
   const [account, setAccount] = useState([]);
 
-
   const [logout, setLogout] = useState(false);
 
   const [profile, setProfile] = useState([])
@@ -30,13 +29,19 @@ export const SocketProvider = (props) => {
   const [person, setPerson] = useState({});
 
   const [contactList, setContactList] = useState([]);
+
   const [activeUser, setActiveUser] = useState([]);
 
+  // Bydefault laguage 
   const [myLanguage, setMyLanguage] = useState('en');
 
   const [update, setUpdate] = useState(false);
 
   // console.log(account);
+  useEffect(() => {
+    if (profile?.language)
+      setMyLanguage(profile?.language)
+  }, [profile, account])
 
   useEffect(() => {
     // if (socket.current) {

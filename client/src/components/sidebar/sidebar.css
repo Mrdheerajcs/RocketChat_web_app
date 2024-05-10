@@ -1,5 +1,5 @@
 .sidebar {
-    /* position: fixed; */
+    position: fixed;
     left: 0px;
     top: 0px;
     width: 81px;
@@ -18,7 +18,7 @@ ul>li.main-li {
     padding: 9px 11px;
     margin: 27px 0;
     border-radius: 3px;
- 
+
 }
 
 ul {
@@ -26,23 +26,131 @@ ul {
     padding: 0px;
 }
 
-ul.profile-hover-sidebar{
+ul.profile-hover-sidebar {
     position: absolute;
     bottom: 28px;
     left: 51px;
     background: white;
- 
+
     padding: 10px 23px;
     width: 150px;
 }
 
-.sidebar-icons{
+.sidebar-icons {
     color: red;
     /* background-color: var(--themeColor); */
     font-size: 14px;
-    filter: hue-rotate(200deg); 
+    filter: hue-rotate(200deg);
 }
 
-.bottom-icon{
-    width:17px
+.bottom-icon {
+    width: 17px
+}
+
+
+#selectInput {
+    width: 182px;
+    border: 1px solid;
+    padding: 7px;
+    height: 36px;
+    width: 156px;
+}
+
+
+@media only screen and (max-width:800px) {
+    .sidebar {
+        bottom: 0px;
+        width: 100%;
+
+        flex-direction: row;
+        height: 14vh;
+        top: auto
+    }
+
+    .logo {
+        flex-direction: row;
+    }
+
+    .first-menu>ul {
+        flex-direction: row;
+        display: flex;
+        margin-left: 19px;
+    }
+
+    .first-menu>ul>li.main-li {
+        margin: 4px;
+    }
+
+    .sidebar-menu {
+        box-shadow: none;
+        padding: 10px 15px;
+    }
+
+    .logo>img {
+        display: none;
+    }
+
+    #slider-scroll {
+        height: 85vh;
+    }
+
+    ul.profile-hover-sidebar {}
+}
+
+
+/* ............................ */
+
+/* Tooltip container */
+.main-li {
+    /* position: relative; */
+    /* display: inline-block; */
+}
+
+/* Tooltip text */
+.main-li .tooltiptext {
+    top: 50%;
+    background-color: #420BA1;
+    box-shadow: 4px 4px 4px rgba(200, 198, 198, 0.25);
+    border-radius: 2px;
+    display: inline-block;
+    padding: 6px 19px;
+    color: #fff;
+    font-size: 12px;
+    -webkit-transform: translateY(-50%);
+    transition: ease all 0.5s;
+    -webkit-transition: ease all 0.5s;
+    /* width: 78px; */
+    height: 31px;
+    background-color: #5a078b;
+    text-align: center;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 115px;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.main-li .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 31%;
+    left: -8%;
+    margin-left: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.main-li:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.main-li > a:hover {
+    color: #420ba1
 }

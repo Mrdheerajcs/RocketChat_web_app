@@ -17,12 +17,14 @@ const MessageSchema = new Schema({
     },
     type: {
         type: String
+    },
+    language: {
+        type: String
     }
 },
     {
         timestamps: true
     })
-
 
 
 module.exports = mongoose.model('Message', MessageSchema);

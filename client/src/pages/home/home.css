@@ -81,7 +81,7 @@
     position: relative;
 }
 
-.none{
+.none {
     display: none;
 }
 
@@ -95,19 +95,92 @@
     align-items: center;
     height: 100vh;
     justify-content: center;
-  
-  }
-  
- 
-  .empty-chat-pragraph {
+
+}
+
+
+.empty-chat-pragraph {
     color: #666464;
     margin-top: 12px;
     text-align: center;
-  }
-  
-  .empty-chat-heading {
+}
+
+.empty-chat-heading {
     margin-top: 12px;
     font-weight: 400;
     font-size: 25px;
     color: #242121
-  }
+}
+
+
+/* ----------------------- Responsive home pages ----------------------- */
+
+/* @media (max-width: 600px) {
+    .chat-send-container{
+        width: 59%;
+    }
+ }
+
+ @media (max-width: 700px) {
+    .chat-send-container{
+        width: 60%;
+    }
+ } */
+
+@media (min-width: 601px) {
+    .chat-send-container {
+        width: 59%;
+    }
+}
+
+@media (min-width: 983px) {
+    .chat-send-container {
+        width: 59%;
+    }
+}
+
+@media (min-width: 901px) {
+    .chat-send-container {
+        width: 59%;
+    }
+}
+
+@media (min-width: 1001px) {
+    .chat-send-container {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1101px) {
+    .chat-send-container {
+        width: 64%;
+    }
+}
+
+@media (min-width: 1201px) {
+    .chat-send-container {
+        width: 65%;
+    }
+}
+
+@media only screen and (max-width:801px) {
+    #slider-scroll {
+        margin-left: 0px;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:992px) {
+    #slider-scroll {
+        /* margin-left:0px; */
+        width: 100%;
+    }
+
+    .showEditProfile {
+        display: block;
+    }
+}
+
+.profile-container{
+    transition:all 0.5s ease-in-out
+}

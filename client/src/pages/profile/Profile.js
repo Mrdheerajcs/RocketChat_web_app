@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SIdebar from '../../components/sidebar/Sidebar';
 import "./profile.css"
-
 import { useSocket } from "../../context/SocketProvider";
 import { Search } from '@material-ui/icons';
 import GenerateTab from '../../components/general_tab/GenerateTab';
@@ -17,15 +16,84 @@ const Profile = () => {
 
     const { account, profile, setUpdate, update } = useSocket();
 
-    const [generalUpdate, setGeneralUpdate] = useState(false);
+    const [profileToggle, setProfileToggle] = useState(false);
 
     // console.log(profile)
 
     const [activeTab, setActiveTab] = useState('tab1');
 
+    const [setting, setSeting] = useState(false);
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     }
+
+    const handleEnditSetting = () => {
+        setSeting(!setting);
+    }
+
+
+    // profile picture update 
+
+    const [generlFormData, setGeneralFormData] = useState({
+        profilePic: null,
+    });
+    // react hook
+
+    const handleImageSubmit = async (event) => {
+        // event.preventDefault();
+        console.log(generlFormData);
+
+        const formData = new FormData();
+        formData.append('profilePic', generlFormData.profilePic); // Append the file
+
+        const response = await fetch('http://localhost:5000/api/profile/updateprofile', {
+            method: 'PUT',
+            body: formData,
+            headers: {
+                'auth-token': localStorage.getItem('token'),
+            }
+        });
+
+        const json = await response.json();
+
+        // Reset form data
+        setGeneralFormData({
+            profilePic: null,
+        });
+
+        if (json.success) {
+            window.alert("Profile updated Now")
+            setUpdate(!update);
+            // After update do not reload page and update profile on hitting button
+        }
+        else {
+            window.alert("Some Error Occur, Reload the page and try again")
+        }
+    }
+
+
+    const handlefileChange = async (e) => {
+        const { name, files } = e.target;
+        // console.log(files[0])
+
+        await setGeneralFormData({
+            ...generlFormData,
+            [name]: files[0]
+        });
+
+        // handleImageSubmit();
+        setProfileToggle(!profileToggle);
+    }
+
+    useEffect(() => {
+        // console.log(generlFormData);
+        if (profileToggle)
+            handleImageSubmit();
+    }, [profileToggle])
+
+
+    // profile picture update 
 
     return (
         <>
@@ -33,7 +101,7 @@ const Profile = () => {
 
                 <SIdebar />
 
-                <div id="slider-scroll" className="sidebar-group ml-[83px] p-3  w-[407px] bg-[#fafbff] overflow-y-scroll h-[100vh]">
+                <div style={{ display: `${setting === true ? 'none' : ''}` }} id="slider-scroll" className={`sidebar-group ml-[83px] p-3   bg-[#fafbff] overflow-y-scroll h-[100vh]`}>
                     {/* top header components */}
                     <div className="flex justify-between items-center px-2">
                         <div className="uppercase  text-[12px] text-[--themeColor] font-extrabold">profile </div>
@@ -49,41 +117,48 @@ const Profile = () => {
                                 <label htmlFor="" className="flex items-center justify-center m-0 pl-2 "><Search style={{ fontSize: '18px' }} /></label>
                                 <input type="text" placeholder="Search Contacts" className="w-[100%]  placeholder:text-[12px] p-2  rounded-sm   text-black focus:outline-none" />
                             </div>
-                            <div class="settings-option">
-                                <a href="nav-tab" class="user-list-item">Edit Settings</a>
-                            </div>
                         </form>
+                    </div>
+
+                    <div className="showEditProfile flex items-center justify-between px-2">
+                        <div>
+
+                        </div>
+                        <div className='editsetting'>
+                            {/* <Link to=""></Link> */}
+                            <h5 onClick={handleEnditSetting} className="mt-3 text-[#5a078b] mb-1 text-[13px] font-semibold">Edit Settings</h5>
+                        </div>
                     </div>
 
 
                     <div className="profile-card mt-3">
                         <div className="profile-cover text-center mb-3">
-                            <label className="profile-cover-avatar" for="avatar_upload">
 
-                                {/* {
+                            <form enctype='multipart/form-data'>
 
-                                    !profile.profilePic ? <img className="avatar-img" src="/images/profile.png" alt="Profile Image" /> : <img className="avatar-img" src={"/images/" + profile.profilePic} alt="Profile Image" />
+                                <label className="profile-cover-avatar" for="avatar_upload">
 
+                                    {!profile ?
+                                        <img className="avatar-img " src="./images/profile.png" alt="Profile Image" />
+                                        :
+                                        <img className="avatar-img  " src={"./images/" + profile.profilePic} alt="Profile Image" />
+                                    }
 
-                                } */}
+                                    <input name="profilePic" onChange={handlefileChange} type="file" id="avatar_upload" />
+                                    <span className="avatar-edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            className="feather feather-edit-2 avatar-uploader-icon shadow-soft">
+                                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </label>
 
-                                {!profile ?
-                                    <img className="avatar-img " src="./images/profile.png" alt="Profile Image" />
-                                    :
-                                    <img className="avatar-img  " src={"./images/" + profile.profilePic} alt="Profile Image" />
-                                }
+                                {/* <button type="submit"></button> */}
+                            </form>
 
-                                <input type="file" id="avatar_upload" />
-                                <span className="avatar-edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        className="feather feather-edit-2 avatar-uploader-icon shadow-soft">
-                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                        </path>
-                                    </svg>
-                                </span>
-                            </label>
                             <h5 className="mt-3 profile-name mb-1">Rocket chat</h5>
                             {!(account || account?.email) ?
                                 <p className="profile-email mb-1"> </p>
@@ -132,14 +207,14 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div className="chat w-[75vw]   overflow-y-scroll">
-                    <div className="chat settings-main p-3" id="middle" >
+                <div style={{ display: `${setting === true ? 'block' : ''}` }} className={`chat-unactive chat w-[75vw] overflow-y-scroll`}>
+                    <div style={{ display: `${setting === true ? 'block' : ''}` }} className={`chat settings-main p-3 ${setting === true ? 'ml-[77px]' : ''}`} id="middle" >
                         <div className="slimScrollDiv"  >
                             <div className="slimscroll" style={{ width: "100%", height: "650px" }}>
                                 <div className="page-header d-flex align-items-center">
                                     <div className="me-3 d-md-block d-lg-none">
                                         <a className="text-muted px-0 left_side" href="#">
-                                            <i className="fas fa-arrow-left"></i>
+                                            <i onClick={handleEnditSetting} className="fas fa-arrow-left"></i>
                                         </a>
                                     </div>
                                     <div className='flex items-start justify-center flex-col'>

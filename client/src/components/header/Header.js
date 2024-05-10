@@ -3,7 +3,7 @@ import "./header.css";
 import { MoreHoriz, Person, Search } from '@material-ui/icons';
 import { useSocket } from "../../context/SocketProvider";
 
-const Header = ({ person }) => {
+const Header = ({ person ,onClick}) => {
 
     const { activeUser } = useSocket();
     // console.log(activeUser)
@@ -34,14 +34,14 @@ const Header = ({ person }) => {
                 </div>
                 <div className='header-right flex items-center justify-center'>
                     <ul className="flex items-center justify-center">
-                        <li className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify-center'>
+                        <li className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify- cursor-pointer'>
                             <Search className=' text-[#c8c8d8]  text-[14px]' style={{ fontSize: '17px' }} />
                         </li>
-                        <li className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify-center'>
-                            <Person className=' text-[#c8c8d8]  text-[14px]' style={{ fontSize: '17px' }} />
+                        <li onClick={onClick} className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify-center cursor-pointer'>
+                            <Person   className=' text-[#c8c8d8]  text-[14px]' style={{ fontSize: '17px' }} />
                         </li>
 
-                        <li className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify-center'>
+                        <li className='mx-1 bg-[#f4f4fa] rounded-full  p-[10px] flex items-center justify-center cursor-pointer'>
 
 
                             <MoreHoriz className=' text-[#c8c8d8]  text-[14px]' style={{ fontSize: '17px' }} />

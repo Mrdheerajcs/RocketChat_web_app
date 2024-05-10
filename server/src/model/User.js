@@ -31,7 +31,13 @@ const userSchema = new Schema({
         nickName: String,
         phoneNumber: String,
         location:String,
-        bio:String
+        bio:String,
+        language:String,
+        facebook:String,
+        instagram:String,
+        youtube:String,
+        linkedin:String,
+        twitter:String,
     },
 
     date: {

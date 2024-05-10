@@ -5,7 +5,7 @@ import "./chat_card.css";
 
 const ChatCard = ({ user }) => {
 
-    const { setPerson, account, activeUser, person, logout } = useSocket();
+    const { setPerson, account, activeUser, person } = useSocket();
 
 
     const getPerson = async () => {
@@ -54,7 +54,7 @@ const ChatCard = ({ user }) => {
                 </div>
                 <div className="chat-card-right">
                     <p className='text-[12px] font-semibold font-sans text-[gray]'>05 min</p>
-                    <span className="rounded-full bg-blue-700 text-white fle items-center justify-center  text-[9px] py-[4px] px-[5px] w-[10px] h-[10px] ">11</span>
+                    {/* <span className="rounded-full bg-blue-700 text-white fle items-center justify-center  text-[9px] py-[4px] px-[5px] w-[10px] h-[10px] ">11</span> */}
                 </div>
             </div>
         </>

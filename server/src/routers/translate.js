@@ -14,11 +14,11 @@ router.use(bodyParser.json())
 router.post('/get', async function (req, res) {
 
     const { msg, target } = req.body;
-    console.log(msg, target)
+    // console.log(msg, target)
 
     try {
         const translation = await translate(msg, { from: 'auto', to: target })
-        console.log(translation)
+        // console.log(translation)
         return res.status(200).json({translation:translation});
 
     } catch (err) {

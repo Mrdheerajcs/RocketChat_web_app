@@ -29,12 +29,12 @@ router.put('/updateprofile', fetchuser, upload.single('profilePic'), async funct
 
     let success = false;
 
-    console.log(req.body);
-    console.log(req.file)
+    // console.log(req.body);
+    // console.log(req.file)
 
-    const { profilePic, fullName, nickName, phoneNumber, location, bio } = req.body;
+    const { profilePic, fullName, nickName, phoneNumber, location, bio, language, facebook, twitter, youtube, instagram, linkedin } = req.body;
 
-    console.log(profilePic)
+    // console.log(profilePic)
 
     try {
 
@@ -51,6 +51,12 @@ router.put('/updateprofile', fetchuser, upload.single('profilePic'), async funct
         if (phoneNumber) user.profile.phoneNumber = phoneNumber;
         if (location) user.profile.location = location;
         if (bio) user.profile.bio = bio;
+        if (language) user.profile.language = language;
+        if (facebook) user.profile.facebook = facebook;
+        if (instagram) user.profile.instagram = instagram;
+        if (linkedin) user.profile.linkedin = linkedin;
+        if (youtube) user.profile.youtube = youtube;
+        if (twitter) user.profile.twitter = twitter;
 
         await user.save();
 
@@ -72,6 +78,5 @@ router.get('/getprofile', fetchuser, async (req, res) => {
         res.status(500).json({ message: "This is internal Error...." })
     }
 })
-
 
 module.exports = router;
